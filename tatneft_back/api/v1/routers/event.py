@@ -66,13 +66,13 @@ async def get_all_events(
     if st + count + 1 > count_docs:
         count = count_docs - st
     
-    return [EventOut.parse_dbm_kwargs(**event.dict()) for event in await get_events()][st: st + count: 1]
+    return [EventOut.parse_dbm_kwargs(**event.dict()) for event in await get_events()][st: st + count: 1][::-1]
 
 @router.get('/event.my', response_model=list[EventOut], tags=['Event'])
 async def get_all_my_events(
     user: User = Depends(get_strict_current_user),
     ):
-    return [EventOut.parse_dbm_kwargs(**event.dict()) for event in await get_my_events(user_id=user.int_id)]
+    return [EventOut.parse_dbm_kwargs(**event.dict()) for event in await get_my_events(user_id=user.int_id)][::-1]
 
 @router.get('/event.by_id', response_model=Optional[EventOut], tags=['Event'])
 async def get_event_by_int_id(
