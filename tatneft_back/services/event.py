@@ -23,8 +23,8 @@ async def upload_event(
     return created_event
 
 async def get_events() -> list[Event]:
-    users = [Event.parse_document(doc) async for doc in db.event_collection.create_cursor()]
-    return users
+    events = [Event.parse_document(doc) async for doc in db.event_collection.create_cursor()]
+    return events
 
 
 async def get_event(
@@ -34,7 +34,7 @@ async def get_event(
 ) -> Optional[Event]:
     filter_ = {}
     if id_ is not None:
-        filter_.update(db.user_collection.create_id_filter(id_=id_))
+        filter_.update(db.event_collection.create_id_filter(id_=id_))
     if int_id is not None:
         filter_[EventFields.int_id] = int_id
 
