@@ -17,4 +17,4 @@ class UserExistsStatusOut(BaseSchemaOut):
 
 
 class UpdateUserIn(BaseSchemaIn):
-    fullname: str
+    username: str

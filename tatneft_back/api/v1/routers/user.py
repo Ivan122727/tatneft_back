@@ -64,7 +64,7 @@ async def edit_user(
         curr_user: User = Depends(get_strict_current_user),
         edit_data: UpdateUserIn = Body(...)
 ):
-    await db.user_collection.update_document_by_id(id_=curr_user.int_id, set_={UserFields.fullname: edit_data.fullname})
+    await db.user_collection.update_document_by_id(id_=curr_user.int_id, set_={UserFields.username: edit_data.username})
     return UserOut.parse_dbm_kwargs(**(await get_user(id_=curr_user.int_id)).dict())
 
 
