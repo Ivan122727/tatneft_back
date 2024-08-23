@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve Sputnik Backend app
+After=network.target
+
+[Service]
+User=www
+Group=www-data
+WorkingDirectory=/home/www/code/tatneft_back
+Environment="PATH=/home/www/code/tatneft_back/venv/bin"
+ExecStart=/home/www/code/tatneft_back/venv/bin/gunicorn -w 5 -k uvicorn.workers.UvicornWorker tatneft_back.core.asgi:app
+
+[Install]
+WantedBy=multi-user.target

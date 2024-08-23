@@ -1,0 +1,12 @@
+[Unit]
+Description=Frontend
+
+[Service]
+User=ops
+WorkingDirectory=/home/www/code/base
+Environment=PATH=/home/www/.nvm/versions/node/v18.16.0/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+ExecStart=/bin/bash -c "npm run build && npm run start"
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
