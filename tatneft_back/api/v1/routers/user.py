@@ -103,6 +103,18 @@ async def subscribe_user(
     await db.user_collection.update_document_by_id(id_=user.oid, set_={UserFields.roles: [UserRoles.subscribed_user]})
     return UserOut.parse_dbm_kwargs(**(await get_user(id_=user.oid)).dict())
 
+@router.put('/user.unsubscribe', response_model=UserOut, tags=['User'])
+async def unsubscribe_user(
+        user: User = Depends(get_strict_current_user),
+):
+    user = await get_user(id_=user.oid)
+    
+    if user is None:
+        raise HTTPException(status_code=400, detail="user is none")
+
+    await db.user_collection.update_document_by_id(id_=user.oid, set_={UserFields.roles: [UserRoles.user]})
+    return UserOut.parse_dbm_kwargs(**(await get_user(id_=user.oid)).dict())
+
 
 @router.put('/user.diff_attemps', response_model=UserOut, tags=['User'])
 async def change_attemps(
