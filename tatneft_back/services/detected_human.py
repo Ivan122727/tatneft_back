@@ -20,7 +20,7 @@ async def create_detected_human(
     return created_detected_human
 
 async def get_detected_humans(event_id: int) -> list[DetectedHuman]:
-    detected_humans = [DetectedHuman.parse_document(doc) async for doc in db.event_collection.create_cursor() if doc[DetectedHumanFields.event_id] == event_id]
+    detected_humans = [DetectedHuman.parse_document(doc) async for doc in db.detected_human_collection.create_cursor() if doc[DetectedHumanFields.event_id] == event_id]
     return detected_humans
 
 async def get_detected_human(
