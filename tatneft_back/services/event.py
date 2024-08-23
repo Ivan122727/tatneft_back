@@ -26,6 +26,9 @@ async def get_events() -> list[Event]:
     events = [Event.parse_document(doc) async for doc in db.event_collection.create_cursor()]
     return events
 
+async def get_my_events(user_id: int) -> list[Event]:
+    events = [Event.parse_document(doc) async for doc in db.event_collection.create_cursor() if doc[EventFields.user_id] == user_id]
+    return events
 
 async def get_event(
         *,

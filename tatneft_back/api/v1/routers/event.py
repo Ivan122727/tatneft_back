@@ -11,7 +11,7 @@ from tatneft_back.core.settings import STATIC_DIRPATH
 from tatneft_back.db.collections.user import UserFields
 from tatneft_back.deps.user_deps import get_strict_current_user
 from tatneft_back.models.user import User
-from tatneft_back.services.event import get_event, get_events, upload_event
+from tatneft_back.services.event import get_event, get_events, get_my_events, upload_event
 from tatneft_back.services.mail import create_mail_code, get_mail_codes, remove_mail_code
 from tatneft_back.services.token import generate_token
 from tatneft_back.services.user import get_user, update_user
@@ -68,6 +68,11 @@ async def get_all_events(
     
     return [EventOut.parse_dbm_kwargs(**event.dict()) for event in await get_events()][st: st + count: 1]
 
+@router.get('/event.my', response_model=list[EventOut], tags=['Event'])
+async def get_all_my_events(
+    user: User = Depends(get_strict_current_user),
+    ):
+    return [EventOut.parse_dbm_kwargs(**event.dict()) for event in await get_my_events(user_id=user.int_id)]
 
 @router.get('/event.by_id', response_model=Optional[EventOut], tags=['Event'])
 async def get_event_by_int_id(
