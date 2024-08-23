@@ -1,5 +1,5 @@
 from typing import Optional
-from fastapi import APIRouter, Body, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Body, Depends, Form, HTTPException, Query, status
 from tatneft_back.api.v1.schemas.base import OperationStatusOut
 
 from tatneft_back.api.v1.schemas.user import UpdateUserIn, UserExistsStatusOut, UserOut
@@ -101,4 +101,19 @@ async def subscribe_user(
         raise HTTPException(status_code=400, detail="user is none")
 
     await db.user_collection.update_document_by_id(id_=user.oid, set_={UserFields.roles: [UserRoles.subscribed_user]})
+    return UserOut.parse_dbm_kwargs(**(await get_user(id_=user.oid)).dict())
+
+
+@router.put('/user.diff_attemps', response_model=UserOut, tags=['User'])
+async def change_attemps(
+        user: User = Depends(get_strict_current_user),
+        diff: int = Form(...)
+):
+    user = await get_user(id_=user.oid)
+    
+    if user is None:
+        raise HTTPException(status_code=400, detail="user is none")
+
+    curr_count_attemps = 0 if user.count_attemps - diff < 0 else user.count_attemps - diff
+    await db.user_collection.update_document_by_id(id_=user.oid, set_={UserFields.count_attemps: curr_count_attemps})
     return UserOut.parse_dbm_kwargs(**(await get_user(id_=user.oid)).dict())
