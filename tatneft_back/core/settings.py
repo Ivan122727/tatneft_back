@@ -31,7 +31,7 @@ class Settings(BaseSettings):
 
     front_domain: str = "https://uunit-gaming.ru"
 
-    emulate_mail_sending: bool = True
+    emulate_mail_sending: bool = False
 
     @property
     def mongo_uri(self) -> str:
