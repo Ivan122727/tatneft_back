@@ -54,7 +54,7 @@ async def reg(
         if user is not None:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="user is not None")
 
-    user = await create_user(mail=reg_user_in.mail, username=reg_user_in.usermame, auto_create_at_least_one_token=True)
+    user = await create_user(mail=reg_user_in.mail, username=reg_user_in.username, auto_create_at_least_one_token=True)
     return SensitiveUserOut.parse_dbm_kwargs(
         **user.dict(),
         current_token=user.misc_data["created_token"]

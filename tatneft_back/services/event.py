@@ -19,8 +19,8 @@ async def upload_event(
         EventFields.privacy: privacy,
     }
     inserted_doc = await db.event_collection.insert_document(document=doc_to_insert)
-    created_research = Event.parse_document(inserted_doc)
-    return created_research
+    created_event = Event.parse_document(inserted_doc)
+    return created_event
 
 async def get_events() -> list[Event]:
     users = [Event.parse_document(doc) async for doc in db.event_collection.create_cursor()]
