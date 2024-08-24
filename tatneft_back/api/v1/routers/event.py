@@ -2,8 +2,8 @@ from pathlib import Path
 from typing import Optional
 from uuid import uuid4
 from fastapi import APIRouter, Body, Depends, File, Form, HTTPException, Query, Request, UploadFile, status
-from tatneft_ai.utils_hack_tatneft.entity.MFiLkO import MFiLkO
-from tatneft_ai.utils_hack_tatneft.video_cut_mp3 import video2audio
+# from tatneft_ai.utils_hack_tatneft.entity.MFiLkO import MFiLkO
+# from tatneft_ai.utils_hack_tatneft.video_cut_mp3 import video2audio
 from tatneft_back.api.v1.schemas.event import EventOut, SensitiveEventOut
 from tatneft_back.core.consts import db
 
@@ -45,12 +45,12 @@ async def create_event(
     
     event = await upload_event(filename=filename, user_id=user.int_id, privacy=privacy)
     
-    video_path = f"{STATIC_DIRPATH}/{filename}"
-    audio_path = f"{STATIC_DIRPATH}/{filename.split('.')[0].strip()}.mp3"
+    # video_path = f"{STATIC_DIRPATH}/{filename}"
+    # audio_path = f"{STATIC_DIRPATH}/{filename.split('.')[0].strip()}.mp3"
     
-    video2audio(mp3=audio_path, mp4=video_path)
-    a = MFiLkO(path_audio=audio_path, path_video=video_path)
-    await a.run(sync_mode=True)
+    # video2audio(mp3=audio_path, mp4=video_path)
+    # a = MFiLkO(path_audio=audio_path, path_video=video_path)
+    # await a.run(sync_mode=True)
 
     if not(user.roles[0] == UserRoles.subscribed_user):
         await update_user(id_=user.oid, count=1)

@@ -1,6 +1,6 @@
 import asyncio
 
-from tatneft_ai.utils_hack_tatneft.entity import MFiLkO
+# from tatneft_ai.utils_hack_tatneft.entity import MFiLkO
 from tatneft_back.db.db import DB
 from tatneft_back.core.settings import Settings
 
