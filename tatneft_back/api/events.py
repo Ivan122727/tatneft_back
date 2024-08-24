@@ -13,7 +13,6 @@ async def prepare_db():
         log.exception(e)
         raise e
     await db.ensure_all_indexes()
-    await db.drop_collections()
     log.info("db conn is good")
 
 
