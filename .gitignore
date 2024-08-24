@@ -20,9 +20,8 @@ cache_dir
 db_dumps
 mongo_dumps
 config
-venv
 static
-
+venv
 # concrete files
 .env
 .env_test_prod
