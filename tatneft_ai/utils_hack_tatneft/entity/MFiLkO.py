@@ -3,9 +3,10 @@ import time
 import concurrent.futures
 
 from tatneft_ai.audio2text.voice_detection import whisper_audio2text
-from tatneft_ai.utils_hack_tatneft.video_cut_mp3 import video2audio
-from tatneft_ai.utils_hack_tatneft.associate_persons import PersonAssociator
-from tatneft_ai.utils_hack_tatneft.image_works.made_avatar import detect_and_save_unique_persons
+from tatneft_ai.utils_hack_tatneft.diarization import PersonAssociator
+from tatneft_ai.utils_hack_tatneft.image_works.person_matching import VideoProcessor
+from tatneft_ai.utils_hack_tatneft.mathcing_persons import AudioTextMerger
+
 
 class MFiLkO:
     async def __init__(self, path_video, path_audio):
@@ -17,7 +18,12 @@ class MFiLkO:
         if sync_mode:
             # cv routine
             # will  be in next version
-            # photo = detect_and_save_unique_persons(self.path_video)
+            print("video process")
+            video_processor = VideoProcessor(
+                self.path_video,
+                f"tatneft_ai/source/output_video/{str(time.time())}.mp4"
+            )
+            photo = video_processor.process_video()
             # voice routine
             print("start video))")
             start_time = time.time()
@@ -51,13 +57,14 @@ class MFiLkO:
 
             return await self._made_persons(replics, photo)
 
-    async def _made_persons(self, replics, photos=None):
-        participants = {
-            "persons": [],
-            "judges": [],
-        }
+    async def _made_persons(self, replics, photos):
+        merger = AudioTextMerger(
+            replics,
+            photos,
+        )
+        updated_transcription = merger.update_transcription_with_photos()
 
-        return replics
+        return updated_transcription
 
     async def _merge(self, dialogs, persons):
         # print(dialogs)
