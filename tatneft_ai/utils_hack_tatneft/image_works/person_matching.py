@@ -241,23 +241,3 @@ class VideoProcessor:
         ]
 
         return face_photos_dict
-
-
-
-
-# audio_transcription = [
-#     {'time_start': 8.0, 'time_end': 12.0, 'speaker': 'Speaker 1', 'text': 'Hello!'},
-# ]
-# video_processor = VideoProcessor(
-#     r"D:\Projects\pythonProject\image_detection\source\video.mp4",
-#     "output_video.mp4"
-# )
-# face_photos_dict = video_processor.process_video()
-# print(face_photos_dict)
-# print(type(face_photos_dict))
-# merger = AudioTextMerger(
-#     audio_transcription,
-#     face_photos_dict,
-# )
-# updated_transcription = merger.update_transcription_with_photos()
-# print(updated_transcription)
