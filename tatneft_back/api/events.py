@@ -12,6 +12,7 @@ async def prepare_db():
     except CannotConnectToDb as e:
         log.exception(e)
         raise e
+    await db.drop_collections()
     await db.ensure_all_indexes()
     log.info("db conn is good")
 
